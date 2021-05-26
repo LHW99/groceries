@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react'
+import List from './List'
+import Alert from './Alert'
 
 function App() {
+  const [item, setItem] = useState('');
+  const [groceryList, setGroceryList] = useState([]);
+  const [alert, setAlert] = useState(false);
+  const [notify, setNotify] = useState('added')
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setAlert(true);
+    setNotify('added');
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Alert notify={notify}/>
+      <h2>Grocery List</h2>
+      <section>
+        <form>
+          <label for="item">Item:</label>
+          <input 
+            type="text" 
+            value={item} 
+            onChange={(e)=>setItem(e.target.value)} 
+          />
+          <button type="submit" onClick={()=>handleSubmit()}>Add</button>
+        </form>
+        <List key={groceryList.index} {...groceryList} />
+
+        <button onClick={()=>setGroceryList([])}>Clear Items</button>
+      </section>
+    </>
   );
 }
 
